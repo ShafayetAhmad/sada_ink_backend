@@ -6,14 +6,15 @@ import { generateToken } from "../../shared/utils/jwt.util";
 export const registerUser = async (
   name: string,
   email: string,
-  password: string
+  password: string,
+  role: "admin" | "user" = "user"
 ) => {
   const userExist = await User.findOne({ email });
   if (userExist) {
     throw new Error("Email already in use");
   }
   const hashedPassword = await bcrypt.hash(password, 10);
-  const newUser = new User({ name, email, password: hashedPassword });
+  const newUser = new User({ name, email, password: hashedPassword, role });
   newUser.save();
   return newUser;
 };

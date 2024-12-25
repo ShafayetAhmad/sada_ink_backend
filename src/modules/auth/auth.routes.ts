@@ -4,12 +4,22 @@ import {
   refreshAccessToken,
   registerController,
 } from "./auth.controller";
+import { validator } from "../../shared/middlewares/validator";
+import {
+  loginSchema,
+  refreshTokenSchema,
+  registerSchema,
+} from "./auth.validation";
 export const authRoutes = express.Router();
 
 authRoutes.get("/", (req, res) => {
   res.send("/login for Login API and /register for Register API");
 });
-authRoutes.post("/register", registerController);
+authRoutes.post("/register", validator(registerSchema), registerController);
 
-authRoutes.post("/login", loginController);
-authRoutes.post("/refresh-token", refreshAccessToken);
+authRoutes.post("/login", validator(loginSchema), loginController);
+authRoutes.post(
+  "/refresh-token",
+  validator(refreshTokenSchema),
+  refreshAccessToken
+);
