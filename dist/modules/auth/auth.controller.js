@@ -15,7 +15,6 @@ const blog_service_1 = require("../blogs/blog.service");
 const registerController = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const { name, email, password } = req.body;
-        console.log(name, email, password);
         const user = yield (0, auth_service_1.registerUser)(name, email, password);
         res.status(201).json({
             success: true,
@@ -66,7 +65,7 @@ const refreshAccessToken = (req, res, next) => __awaiter(void 0, void 0, void 0,
 exports.refreshAccessToken = refreshAccessToken;
 const blockUserController = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const blockUserId = req.body.uid; // Extract user ID to block
+        const blockUserId = req.body.uid;
         const blockedUser = yield (0, blog_service_1.blockUser)(blockUserId);
         res.status(200).json({
             success: true,

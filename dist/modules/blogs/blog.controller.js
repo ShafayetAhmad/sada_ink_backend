@@ -15,7 +15,6 @@ const blog_validation_1 = require("./blog.validation");
 const blog_model_1 = require("./blog.model");
 const createBlogController = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        console.log(req.body);
         const blogData = blog_validation_1.createBlogSchema.parse(req.body);
         const blog = yield (0, blog_service_1.createBlog)(Object.assign(Object.assign({}, blogData), { author: req.user._id }));
         res.status(201).json({ success: true, data: blog });

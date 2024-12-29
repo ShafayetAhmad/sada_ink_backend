@@ -10,7 +10,7 @@ export const registerController = async (
 ) => {
   try {
     const { name, email, password } = req.body;
-    console.log(name, email, password);
+
     const user = await registerUser(name, email, password);
     res.status(201).json({
       success: true,
@@ -73,7 +73,7 @@ export const blockUserController = async (
   next: NextFunction
 ) => {
   try {
-    const blockUserId = req.body.uid; // Extract user ID to block
+    const blockUserId = req.body.uid;
 
     const blockedUser = await blockUser(blockUserId);
 

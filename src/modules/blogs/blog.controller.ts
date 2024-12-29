@@ -16,7 +16,7 @@ export const createBlogController = async (
   next: NextFunction
 ) => {
   try {
-    console.log(req.body);
+ 
     const blogData = createBlogSchema.parse(req.body);
     const blog = await createBlog({
       ...blogData,

@@ -1,4 +1,4 @@
-// controllers/adminController.ts
+
 import { Request, Response } from "express";
 import { blockUserService, deleteBlogService } from "./admin.service";
 
