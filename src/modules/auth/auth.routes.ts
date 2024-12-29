@@ -1,5 +1,6 @@
 import express from "express";
 import {
+  blockUserController,
   loginController,
   refreshAccessToken,
   registerController,
@@ -10,6 +11,7 @@ import {
   refreshTokenSchema,
   registerSchema,
 } from "./auth.validation";
+import { isAdmin } from "../../shared/middlewares/authMiddleware";
 export const authRoutes = express.Router();
 
 authRoutes.get("/", (req, res) => {
@@ -23,3 +25,5 @@ authRoutes.post(
   validator(refreshTokenSchema),
   refreshAccessToken
 );
+
+authRoutes.post("/blockUser", isAdmin, blockUserController);

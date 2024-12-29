@@ -9,8 +9,8 @@ export const validator =
     } catch (err) {
       if (err instanceof ZodError) {
         res.status(400).json({
-          message: "Validation failed",
           success: false,
+          message: "Validation failed",
           errors: err.errors,
           stack: err.stack,
         });

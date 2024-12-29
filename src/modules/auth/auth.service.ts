@@ -29,7 +29,7 @@ export const loginUser = async (email: string, password: string) => {
   if (!isPasswordValid) {
     throw new Error("Invalid email or password");
   }
-  const accessToken = generateToken({ id: user._id }, "15m");
+  const accessToken = generateToken({ id: user._id }, "30d");
   const refreshToken = generateToken({ id: user._id }, "30d");
   user.refreshToken = refreshToken;
   await user.save();
