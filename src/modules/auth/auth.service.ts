@@ -12,28 +12,29 @@ export const registerUser = async (
   const userExist = await User.findOne({ email });
   if (userExist) {
     throw new Error("Email already in use");
+  } else {
+    const hashedPassword = await bcrypt.hash(password, 10);
+    const newUser = new User({ name, email, password: hashedPassword, role });
+    newUser.save();
+    return newUser;
   }
-  const hashedPassword = await bcrypt.hash(password, 10);
-  const newUser = new User({ name, email, password: hashedPassword, role });
-  newUser.save();
-  return newUser;
 };
 
 export const loginUser = async (email: string, password: string) => {
   const user = await User.findOne({ email });
   if (!user) {
     throw new Error("Invalid email or password");
+  } else {
+    const isPasswordValid = await bcrypt.compare(password, user.password);
+    if (!isPasswordValid) {
+      throw new Error("Invalid email or password");
+    }
+    const accessToken = generateToken({ id: user._id }, "30d");
+    const refreshToken = generateToken({ id: user._id }, "30d");
+    user.refreshToken = refreshToken;
+    await user.save();
+    return { user, accessToken, refreshToken };
   }
-
-  const isPasswordValid = await bcrypt.compare(password, user.password);
-  if (!isPasswordValid) {
-    throw new Error("Invalid email or password");
-  }
-  const accessToken = generateToken({ id: user._id }, "30d");
-  const refreshToken = generateToken({ id: user._id }, "30d");
-  user.refreshToken = refreshToken;
-  await user.save();
-  return { user, accessToken, refreshToken };
 };
 
 export const verifyRefreshToken = async (token: string) => {
